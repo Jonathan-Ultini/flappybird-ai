@@ -14,3 +14,23 @@ BIRD_IMGS = [pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bi
 PIPE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "pipe.png")))
 BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "base.png")))
 BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bg.png")))
+
+
+class Bird:
+  IMGS = BIRD_IMGS
+  # quanto il bird si inclinerà per salire
+  MAX_ROTATIONBN =  25
+  # rotazione ogni volta che si muove
+  ROT_VEL = 20
+  # qunato durerà ogni animazione
+  ANIMATION_TIME = 5
+
+  def __init__(self,x,y):
+    self.x = x
+    self.y = y
+    self.tilt = 0
+    self.tick_count = 0
+    self.vel = 0
+    self.height = self.y
+    self.img_count = 0
+    self.img = self.IMGS[0]
