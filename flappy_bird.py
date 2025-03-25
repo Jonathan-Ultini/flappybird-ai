@@ -61,4 +61,29 @@ class Bird:
       else:
         if self.tilt > -90:
           self.tilt -= self.ROT_VEL
-          
+
+
+  def draaw(self, win):
+    self.img_count += 1
+
+    # seleziona quale immagine utilizzare in base a img_count
+    if self.img_count < self.ANIMATION_TIME:
+      self.img = self.IMGS[0]
+    elif self.img_count < self.ANIMATION_TIME*2:
+      self.img = self.IMGS[1]
+    elif self.img_count < self.ANIMATION_TIME*3:
+      self.img = self.IMGS[2]
+    elif self.img_count < self.ANIMATION_TIME*4:
+      self.img = self.IMGS[1]
+    elif self.img_count < self.ANIMATION_TIME*4 + 1:
+      self.img = self.IMGS[0]
+      self.img_count = 0
+
+    if self.itlt <= -80:
+      self.img = self.IMGS[1]
+      self.img_count = self.ANIMATION_TIME*2
+
+    # ruota la immgine dal centro
+    rotaded_image = pygame.transform.rotate(self.img, self.tilt)
+    new_rect = rotaded_image.get_rect(center=self.img.get_rect(topleft = (self.x, self.y)).center)
+    win.blit(rotaded_image, new_rect.topleft)
