@@ -34,3 +34,8 @@ class Bird:
     self.height = self.y
     self.img_count = 0
     self.img = self.IMGS[0]
+
+  def jump(self):
+    self.vel = -10.5 # perchè per salire bisogna andare verso lo 0 in su e aumentare per scendere
+    self.tick_count = 0 # sapre quando si cambia velocità o direzione
+    self.height = self.y # da dove inizia a muoversi il bird
