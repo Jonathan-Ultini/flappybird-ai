@@ -238,6 +238,10 @@ def main():
         for r in rem:
             pipes.remove(r)
 
+        # nel caso in cui tocchi il suolo
+        if bird.y + bird.img.get_height() >= 730:
+            pass
+
         # muove la base
         base.move()
 
