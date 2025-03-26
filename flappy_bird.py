@@ -111,7 +111,6 @@ class Pipe:
     def __init__(self, x):
         self.x = x
         self.height = 0
-        self.gap = 100
 
         self.top = 0
         self.bottom = 0
@@ -121,7 +120,12 @@ class Pipe:
         self.passed = False  # Flag per controllare se l'uccello ha superato il tubo
         self.set_height()
     
-    
+    def set_height(self):
+        """Imposta l'altezza del tubo in modo casuale."""
+        self.height = random.randrange(50, 450)
+        self.top = self.height - self.PIPE_TOP.get_height()
+        self.bottom = self.height + self.GAP
+
 
 
 def draw_window(win, bird):
