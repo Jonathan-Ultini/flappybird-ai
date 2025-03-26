@@ -5,7 +5,7 @@ import os
 import random 
 
 # Dimensioni della finestra di gioco
-WIN_WIDTH = 600
+WIN_WIDTH = 500
 WIN_HEIGHT = 800
 
 # Caricamento e ridimensionamento delle immagini degli uccelli
@@ -114,14 +114,18 @@ def main():
     # Inizializza il bird e la finestra di gioco
     bird = Bird(200, 200)
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    clock = pygame.time.Clock()
 
     run = True
     while run:
+        clock.tick(30)  # Limita il gioco a 30 frame al secondo
         # Controlla gli eventi nella finestra di gioco
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
         
+        bird.move()  # Muovi l'uccello
+
         # Disegna la finestra ad ogni iterazione
         draw_window(win, bird)
 
