@@ -153,6 +153,32 @@ class Pipe:
 
 
 
+class Base:
+    VEL = 5
+    WIDTH = BASE_IMG.get_width()
+    IMG = BASE_IMG
+
+    def __init__(self, y):
+        self.y = y
+        self.x1 = 0
+        self.x2 = self.WIDTH
+
+    def move(self):
+        """Muove la base verso sinistra."""
+        self.x1 -= self.VEL
+        self.x2 -= self.VEL
+
+        # Se il primo sprite è fuori dalla finestra, sposta il secondo sprite
+        if self.x1 + self.WIDTH < 0:
+            self.x1 = self.x2 + self.WIDTH
+
+        # Se il secondo sprite è fuori dalla finestra, sposta il primo sprite
+        if self.x2 + self.WIDTH < 0:
+            self.x2 = self.x1 + self.WIDTH
+
+
+
+
 def draw_window(win, bird):
     # Disegna lo sfondo
     win.blit(BG_IMG, (0,0))
