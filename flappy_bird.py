@@ -102,6 +102,28 @@ class Bird:
         return pygame.mask.from_surface(self.img)
 
 
+
+class Pipe:
+    """Classe che rappresenta un tubo nel gioco."""
+    GAP = 200  # Spazio tra i tubi
+    VEL = 5  # Velocità di movimento dei tubi
+
+    def __init__(self, x):
+        self.x = x
+        self.height = 0
+        self.gap = 100
+
+        self.top = 0
+        self.bottom = 0
+        self.PIPE_TOP = pygame.transform.flip(PIPE_IMG, False, True)
+        self.PIPE_BOTTOM = PIPE_IMG
+
+        self.passed = False  # Flag per controllare se l'uccello ha superato il tubo
+        self.set_height()
+    
+    
+
+
 def draw_window(win, bird):
     # Disegna lo sfondo
     win.blit(BG_IMG, (0,0))
