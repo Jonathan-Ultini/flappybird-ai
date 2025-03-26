@@ -181,19 +181,33 @@ class Base:
         win.blit(self.IMG, (self.x1, self.y))
         win.blit(self.IMG, (self.x2, self.y))
 
-def draw_window(win, bird):
+def draw_window(win, bird, pipes, base):
     # Disegna lo sfondo
     win.blit(BG_IMG, (0,0))
+
+    # Disegna i tubi
+    for pipe in pipes:
+        pipe.draw(win)
+
+    # Disegna la base
+    base.draw(win)
+
     # Disegna l'uccello
     bird.draw(win)
+
     # Aggiorna la finestra
     pygame.display.update()
 
 def main():
     # Inizializza il bird e la finestra di gioco
-    bird = Bird(200, 200)
+    bird = Bird(230, 350)
+    base = Base(730)
+    pipes = [Pipe(600)]
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     clock = pygame.time.Clock()
+
+    score = 0
+    add_pipe = False
 
     run = True
     while run:
@@ -203,10 +217,32 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
         
-        bird.move()  # Muovi l'uccello
+        #bird.move()  # Muovi l'uccello
+
+        rem = []  # Tubi da rimuovere
+        for pipe in pipes:
+            if pipe.collide(bird):
+                pass
+            if pipe.x + pipe.PIPE_TOP.get_width() < 0:
+                pipes.append(pipe)
+            if not pipe.passed and pipe.x < bird.x:
+                pipe.passed = True
+                add_pipe = True
+            pipe.move()
+
+        if add_pipe:
+            score += 1
+            pipes.append(Pipe(600))
+
+
+        for r in rem:
+            pipes.remove(r)
+
+        # muove la base
+        base.move()
 
         # Disegna la finestra ad ogni iterazione
-        draw_window(win, bird)
+        draw_window(win, bird, pipes, base)
 
     pygame.quit()
     quit()
