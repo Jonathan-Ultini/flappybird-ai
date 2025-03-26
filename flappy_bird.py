@@ -3,6 +3,7 @@ import neat
 import time
 import os 
 import random 
+pygame.font.init() # init font
 
 # Dimensioni della finestra di gioco
 WIN_WIDTH = 500
@@ -19,6 +20,8 @@ BIRD_IMGS = [
 PIPE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "pipe.png")))
 BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "base.png")))
 BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bg.png")))
+
+STAT_FONT = pygame.font.SysFont("comicsans", 50)
 
 class Bird:
     """
@@ -181,7 +184,7 @@ class Base:
         win.blit(self.IMG, (self.x1, self.y))
         win.blit(self.IMG, (self.x2, self.y))
 
-def draw_window(win, bird, pipes, base):
+def draw_window(win, bird, pipes, base, score):
     # Disegna lo sfondo
     win.blit(BG_IMG, (0,0))
 
@@ -189,6 +192,10 @@ def draw_window(win, bird, pipes, base):
     for pipe in pipes:
         pipe.draw(win)
 
+    # Disegna il punteggio
+    text = STAT_FONT.render("Score: " + str(score), 1, (255,255,255))
+    win.blit(text, (WIN_WIDTH - 10 - text.get_width(), 10))
+                    
     # Disegna la base
     base.draw(win)
 
@@ -207,11 +214,12 @@ def main():
     clock = pygame.time.Clock()
 
     score = 0
-    add_pipe = False
+    
 
     run = True
     while run:
         clock.tick(30)  # Limita il gioco a 30 frame al secondo
+
         # Controlla gli eventi nella finestra di gioco
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -220,23 +228,28 @@ def main():
         #bird.move()  # Muovi l'uccello
 
         rem = []  # Tubi da rimuovere
+        add_pipe = False  # Flag per aggiungere un nuovo tubo
+
         for pipe in pipes:
             if pipe.collide(bird):
-                pass
+                pass # Logica per il game over
+
             if pipe.x + pipe.PIPE_TOP.get_width() < 0:
-                pipes.append(pipe)
+                rem.append(pipe) # Aggiungiamo i tubi alla lista di rimozione
+
             if not pipe.passed and pipe.x < bird.x:
                 pipe.passed = True
-                add_pipe = True
+                add_pipe = True # Attiviamo il flag per aggiungere un tubo
+
             pipe.move()
 
         if add_pipe:
             score += 1
-            pipes.append(Pipe(600))
+            pipes.append(Pipe(600)) # Aggiungiamo un nuovo tubo
 
 
         for r in rem:
-            pipes.remove(r)
+            pipes.remove(r) # Rimuoviamo i tubi che sono usciti dallo schermo
 
         # nel caso in cui tocchi il suolo
         if bird.y + bird.img.get_height() >= 730:
@@ -246,7 +259,7 @@ def main():
         base.move()
 
         # Disegna la finestra ad ogni iterazione
-        draw_window(win, bird, pipes, base)
+        draw_window(win, bird, pipes, base, score)
 
     pygame.quit()
     quit()
