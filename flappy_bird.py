@@ -126,7 +126,15 @@ class Pipe:
         self.top = self.height - self.PIPE_TOP.get_height()
         self.bottom = self.height + self.GAP
 
+    def move(self):
+        """Muove il tubo verso sinistra."""
+        self.x -= self.VEL
 
+
+
+
+
+        
 
 def draw_window(win, bird):
     # Disegna lo sfondo
