@@ -243,9 +243,12 @@ def main(genomes, config):
         add_pipe = False  # Flag per aggiungere un nuovo tubo
 
         for pipe in pipes:
-            for bird in birds:
+            for x, bird in enumerate(birds):
                 if pipe.collide(bird):
-                  pass # Logica per il game over
+                  ge[x].fitness -= 1
+                  birds.pop(x)
+                  nets.pop(x)
+                  ge.pop(x)
 
                 if not pipe.passed and pipe.x < bird.x:
                     pipe.passed = True
