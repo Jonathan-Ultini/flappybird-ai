@@ -209,7 +209,17 @@ def draw_window(win, bird, pipes, base, score):
 
 def main(genomes, config):
     # Inizializza il bird e la finestra di gioco
+    nets = []
     birds = []
+    ge = []
+
+    for g in genomes:
+        net = neat.nn.FeedForwardNetwork.create(g, config)
+        nets.append(net)
+        birds.append(Bird(230,350))
+        g.fitness = 0
+        ge.append(g)
+
     base = Base(730)
     pipes = [Pipe(600)]
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
