@@ -263,6 +263,8 @@ def main(genomes, config):
 
         if add_pipe:
             score += 1
+            for g in ge:
+                g.fitness += 5
             pipes.append(Pipe(600)) # Aggiungiamo un nuovo tubo
 
 
@@ -270,10 +272,14 @@ def main(genomes, config):
             pipes.remove(r) # Rimuoviamo i tubi che sono usciti dallo schermo
 
 
-        for bird in birds:
+        for x, bird in enumerate(birds):
         # nel caso in cui tocchi il suolo
             if bird.y + bird.img.get_height() >= 730:
-                pass
+                ge[x].fitness -= 1
+                birds.pop(x)
+                nets.pop(x)
+                ge.pop(x)
+
 
         # muove la base
         base.move()
