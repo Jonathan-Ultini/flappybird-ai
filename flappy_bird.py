@@ -184,7 +184,7 @@ class Base:
         win.blit(self.IMG, (self.x1, self.y))
         win.blit(self.IMG, (self.x2, self.y))
 
-def draw_window(win, bird, pipes, base, score):
+def draw_window(win, birds, pipes, base, score):
     # Disegna lo sfondo
     win.blit(BG_IMG, (0,0))
 
@@ -200,7 +200,8 @@ def draw_window(win, bird, pipes, base, score):
     base.draw(win)
 
     # Disegna l'uccello
-    bird.draw(win)
+    for bird in birds:
+        bird.draw(win)
 
     # Aggiorna la finestra
     pygame.display.update()
@@ -304,7 +305,7 @@ def main(genomes, config):
         base.move()
 
         # Disegna la finestra ad ogni iterazione
-        draw_window(win, bird, pipes, base, score)
+        draw_window(win, birds, pipes, base, score)
 
 
 
