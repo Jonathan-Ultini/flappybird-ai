@@ -3,13 +3,15 @@ import neat
 import time
 import os 
 import random 
-pygame.font.init() # init font
+
+pygame.font.init() # Inizializza il modulo dei font di Pygame
 
 # Dimensioni della finestra di gioco
 WIN_WIDTH = 500
 WIN_HEIGHT = 800
 
-GEN = 0
+GEN = 0 # Tiene traccia della generazione nella simulazione NEAT
+
 
 # Caricamento e ridimensionamento delle immagini degli uccelli
 BIRD_IMGS = [
@@ -23,13 +25,11 @@ PIPE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "pipe
 BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "base.png")))
 BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bg.png")))
 
+# Definizione del font per il punteggio
 STAT_FONT = pygame.font.SysFont("comicsans", 50)
 
 class Bird:
-    """
-    Classe che rappresenta l'uccello nel gioco.
-    Gestisce il movimento, l'animazione e la rotazione.
-    """
+    """Classe che rappresenta l'uccello nel gioco. Gestisce il movimento, l'animazione e la rotazione."""
     IMGS = BIRD_IMGS  # Immagini per l'animazione
     MAX_ROTATION = 25  # Massima inclinazione verso l'alto
     ROT_VEL = 20  # Velocità di rotazione verso il basso
