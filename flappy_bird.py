@@ -236,8 +236,27 @@ def main(genomes, config):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+                pygame.quit()
+                quit()
         
         #bird.move()  # Muovi l'uccello
+        pipe_ind = 0
+        if len(birds) > 0:
+            if len(pipes) > 1 and birds[0].x > pipes[0].x + pipes[0].PIPE_TOP.get_width():
+                pipe_ind = 1
+        else:
+            run = False
+            break
+
+        for x, bird in enumerate(birds):
+            bird.move()
+            ge[x].fitness += 0.1
+
+            output = nets[x].activate((bird.y, abs(bird.y - pipes[pipe_ind].height), abs(bird.y - pipes[pipe_ind].bottom)))
+
+            if output[0] > 0.5:
+                bird.jump()
+
 
         rem = []  # Tubi da rimuovere
         add_pipe = False  # Flag per aggiungere un nuovo tubo
@@ -274,7 +293,7 @@ def main(genomes, config):
 
         for x, bird in enumerate(birds):
         # nel caso in cui tocchi il suolo
-            if bird.y + bird.img.get_height() >= 730:
+            if bird.y + bird.img.get_height() >= 730 or bird.y < 0:
                 ge[x].fitness -= 1
                 birds.pop(x)
                 nets.pop(x)
@@ -287,11 +306,7 @@ def main(genomes, config):
         # Disegna la finestra ad ogni iterazione
         draw_window(win, bird, pipes, base, score)
 
-    pygame.quit()
-    quit()
 
-
-main()
 
 def run(config_path):
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
