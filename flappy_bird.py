@@ -207,9 +207,9 @@ def draw_window(win, bird, pipes, base, score):
 
 
 
-def main():
+def main(genomes, config):
     # Inizializza il bird e la finestra di gioco
-    bird = Bird(230, 350)
+    birds = []
     base = Base(730)
     pipes = [Pipe(600)]
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
@@ -233,16 +233,19 @@ def main():
         add_pipe = False  # Flag per aggiungere un nuovo tubo
 
         for pipe in pipes:
-            if pipe.collide(bird):
-                pass # Logica per il game over
+            for bird in birds:
+                if pipe.collide(bird):
+                  pass # Logica per il game over
+
+                if not pipe.passed and pipe.x < bird.x:
+                    pipe.passed = True
+                    add_pipe = True # Attiviamo il flag per aggiungere un tubo
+
 
             if pipe.x + pipe.PIPE_TOP.get_width() < 0:
                 rem.append(pipe) # Aggiungiamo i tubi alla lista di rimozione
 
-            if not pipe.passed and pipe.x < bird.x:
-                pipe.passed = True
-                add_pipe = True # Attiviamo il flag per aggiungere un tubo
-
+            
             pipe.move()
 
         if add_pipe:
@@ -253,9 +256,11 @@ def main():
         for r in rem:
             pipes.remove(r) # Rimuoviamo i tubi che sono usciti dallo schermo
 
+
+        for bird in birds:
         # nel caso in cui tocchi il suolo
-        if bird.y + bird.img.get_height() >= 730:
-            pass
+            if bird.y + bird.img.get_height() >= 730:
+                pass
 
         # muove la base
         base.move()
